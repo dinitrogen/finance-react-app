@@ -1,0 +1,8 @@
+.displayCardDiv {
+    margin: 20px;
+    padding: 10px;
+    border: solid black 3px;
+    border-radius: 10px;
+    background-color: dodgerblue;
+    color: white;
+}
