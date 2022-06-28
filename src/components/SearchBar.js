@@ -1,17 +1,24 @@
 import React from "react";
+import { StyledButton, StyledInput } from "./StyledComponents";
 
-const SearchBar = ({clicked, ticker, handleChange}) => {
+
+const SearchBar = ({clicked, ticker, handleChange, coolDown}) => {
     
     return (
         <div>
             <form className="searchForm">
                 <label>Ticker:
-                    <input
+                    <StyledInput
                         id="searchBar"
                         value={ticker}
                         onChange={handleChange} />
                 </label>
-                <button onClick={clicked}>Search</button>
+                <StyledButton
+                    primary={!coolDown}
+                    onClick={clicked}
+                    disabled={coolDown}>
+                        Search
+                </StyledButton>
             </form>
             
         </div>

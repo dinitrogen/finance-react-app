@@ -15,6 +15,8 @@ const App = () => {
   const [footerText, setFooterText] = useState('');
   const [ticker, setTicker] = useState('');
   const [tickers, setTickers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [coolDown, setCoolDown] = useState(false);
     
   const handleChange = (event) => {
       const value = event.target.value;
@@ -26,17 +28,31 @@ const App = () => {
     setTicker('');
   }
 
+  const startCoolDownTimer = () => {
+    console.log("start cooldown");
+    setCoolDown(true);
+    setTimeout(() => {
+      setCoolDown(false);
+      console.log("cooldown done!");
+    }, 30000);
+    
+  }
+
   async function runEquitySearch(event) {
     event.preventDefault();
-    setHeaderText('Fetching price...');
-    setBodyText('Please wait');
-    setFooterText('');
+    setLoading(true);
     const searchResults = await getEquityData(ticker);
-    setHeaderText(searchResults[0]);
-    setBodyText(searchResults[1]);
-    setFooterText(searchResults[2]);
-    let newTicker = {key: uniqid(),headerText: searchResults[0], bodyText: searchResults[1], footerText: searchResults[2]};
-    setTickers([newTicker, ...tickers]);
+    setLoading(false);
+    setHeaderText(searchResults[1]);
+    setBodyText(searchResults[2]);
+    setFooterText(searchResults[3]);
+    if (searchResults[0]) {
+      let newTicker = {key: uniqid(),headerText: searchResults[0], bodyText: searchResults[1], footerText: searchResults[2]};
+      setTickers([newTicker, ...tickers]);
+    }
+    if (searchResults[4]) {
+      startCoolDownTimer();
+    }
   }
 
   const clearSearchHistory = () => {
@@ -56,8 +72,10 @@ const App = () => {
             <SearchBar
               ticker={ticker}
               clicked = {handleClick}
-              handleChange = {handleChange} />
+              handleChange = {handleChange}
+              coolDown={coolDown} />
             <DisplayCard
+              loading={loading}
               headerText={headerText}
               bodyText={bodyText}
               footerText={footerText} />

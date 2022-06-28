@@ -1,6 +1,6 @@
 import React from "react";
 import DisplayCard from "./DisplayCard";
-
+import { StyledButton } from "./StyledComponents";
 
 const HistoryPage = ({tickers, handleClick}) => {
 
@@ -18,7 +18,7 @@ const HistoryPage = ({tickers, handleClick}) => {
                 );
             })}
 
-            <button onClick={handleClick}>Clear history</button>
+            <StyledButton onClick={handleClick}>Clear history</StyledButton>
 
         </div>
     )

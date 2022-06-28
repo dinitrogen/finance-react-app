@@ -13,40 +13,59 @@ async function getEquityData(tickerSymbol) {
     try {
         const response = await fetch(url, {mode: 'cors'});
         const results = await response.json();
-        console.log(results);   
-        let lastRefreshed = results["Meta Data"]["3. Last Refreshed"];
-        let closePrice = results["Time Series (Daily)"][lastRefreshed]["4. close"];
-        let openPrice = results["Time Series (Daily)"][lastRefreshed]["1. open"];
-        let percentChange = ((closePrice - openPrice)/openPrice * 100);
-        if (percentChange > 0) {
-            percentChange = "+" + percentChange.toFixed(2).toString();
-        } else {
-            percentChange = percentChange.toFixed(2).toString();
+        // console.log(results);
+        if (results["Error Message"]) {
+            console.log(results["Error Message"]);
+            symbol = '';
+            let bodyText = 'Invalid request.';
+            let footerText = 'Please try again.';
+            let success = false;
+            return [success, symbol, bodyText, footerText];
+
+        } else if (results["Note"]) {
+            console.log(results["Note"]);
+            symbol = '';
+            let bodyText = 'Call frequency exceeded';
+            let footerText = 'Please wait 30s and try again.';
+            let success = false;
+            let coolDown = true;
+
+            return [success, symbol, bodyText, footerText, coolDown];
+        
+        } else  {
+    
+            let lastRefreshed = results["Meta Data"]["3. Last Refreshed"];
+            let closePrice = results["Time Series (Daily)"][lastRefreshed]["4. close"];
+            let openPrice = results["Time Series (Daily)"][lastRefreshed]["1. open"];
+            let percentChange = ((closePrice - openPrice)/openPrice * 100);
+            if (percentChange > 0) {
+                percentChange = "+" + percentChange.toFixed(2).toString();
+            } else {
+             percentChange = percentChange.toFixed(2).toString();
+            }
+            
+            closePrice = Number(closePrice).toFixed(2);
+
+            // console.log(`Price: $${closePrice} (${percentChange}%)`);
+            
+            let bodyText = `Price: $${closePrice} (${percentChange}%)`;
+            let footerText = `Last refreshed: ${lastRefreshed}`;
+            let success = true;
+
+            return [success, symbol, bodyText, footerText];
+        
         }
         
-
-        console.log(results);
-        
-        closePrice = Number(closePrice).toFixed(2);
-
-        console.log(`Price: $${closePrice} (${percentChange}%)`);
-        
-        let bodyText = `Price: $${closePrice} (${percentChange}%)`;
-        let footerText = `Last refreshed: ${lastRefreshed}`;
-
-        return [symbol, bodyText, footerText];
-
-        // displayCard(symbol,`Price: $${closePrice} (${percentChange}%)`, clearListBoolean);
         
 
     } catch(error) {
         console.log('Error! ' + error);
-        // displayCard('Invalid Request! Try again.')
         symbol = 'Error!';
         let bodyText = 'Invalid request.';
         let footerText = 'Please try again.';
+        let success = false;
 
-        return [symbol, bodyText, footerText];
+        return [success, symbol, bodyText, footerText];
     }
 
 }
