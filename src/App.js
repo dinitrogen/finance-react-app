@@ -50,7 +50,7 @@ const App = () => {
     <div>
       <LandingPage />
       <Routes>
-        <Route path="/" element = {
+        <Route path="/finance-react-app" element = {
 
           <div>
             <SearchBar

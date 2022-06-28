@@ -7,7 +7,7 @@ const LandingPage = () => {
         <div>
             Finance App!!!!
             
-            <Link className="navBarLink" to="/">Home</Link>
+            <Link className="navBarLink" to="/finance-react-app">Home</Link>
             
             <Link className="navBarLink" to="/history">History</Link>
         </div>
