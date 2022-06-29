@@ -1,6 +1,5 @@
 import React from "react";
-import "./DisplayCard.css";
-import { StyledRotateDiv } from "./StyledComponents";
+import { StyledRotateDiv, StyledDisplayCard } from "./StyledComponents";
 
 const DisplayCard = ({headerText, bodyText, footerText, loading}) => {
     
@@ -11,12 +10,12 @@ const DisplayCard = ({headerText, bodyText, footerText, loading}) => {
     } 
 
     return (
-        <div className="displayCardDiv">
+        <StyledDisplayCard>
             <div>{headerText}</div>
             <div>{bodyText}</div>
             <div>{footerText}</div>
             
-        </div>
+        </StyledDisplayCard>
     );
 }
 

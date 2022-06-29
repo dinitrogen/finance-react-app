@@ -11,6 +11,16 @@ const rotate = keyframes`
     }
 `;
 
+const StyledDisplayCard = styled.div`
+    margin: 20px;
+    width: 20em;
+    padding: 10px;
+    border: solid black 3px;
+    border-radius: 10px;
+    background-color: dodgerblue;
+    color: white;
+`;
+
 const StyledRotateDiv = styled.div`
     display: inline-block;
     animation: ${rotate} 0.5s linear infinite;
@@ -37,4 +47,4 @@ const StyledInput = styled.input`
     padding: 1em;
 `;
 
-export {StyledButton, StyledInput, StyledRotateDiv};
+export {StyledButton, StyledInput, StyledRotateDiv, StyledDisplayCard};
