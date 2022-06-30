@@ -5,11 +5,13 @@ import "./LandingPage.css";
 const LandingPage = () => {
     return (
         <div>
-            Finance App!!!!
+            <h1>Stock Finder</h1>
             
-            <Link className="navBarLink" to="/finance-react-app">Home</Link>
+            <Link className="navBarLink" to="/finance-react-app">Search</Link>
             
             <Link className="navBarLink" to="/history">History</Link>
+
+            <Link className="navBarLink" to="/favorites">Favorites</Link>
         </div>
     )
 }

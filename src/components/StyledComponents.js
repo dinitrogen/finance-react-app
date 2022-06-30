@@ -11,14 +11,19 @@ const rotate = keyframes`
     }
 `;
 
+const StyledAppDiv = styled.div`
+    margin: 2em;
+`;
+
 const StyledDisplayCard = styled.div`
-    margin: 20px;
-    width: 20em;
+    margin: 1em;
+    width: 15em;
     padding: 10px;
-    border: solid black 3px;
+    border: solid palevioletred 3px;
     border-radius: 10px;
-    background-color: dodgerblue;
-    color: white;
+    background-color: white;
+    color: black;
+    font-weight: bold;
 `;
 
 const StyledRotateDiv = styled.div`
@@ -47,4 +52,4 @@ const StyledInput = styled.input`
     padding: 1em;
 `;
 
-export {StyledButton, StyledInput, StyledRotateDiv, StyledDisplayCard};
+export {StyledAppDiv, StyledButton, StyledInput, StyledRotateDiv, StyledDisplayCard};

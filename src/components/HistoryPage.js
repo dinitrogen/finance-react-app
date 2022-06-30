@@ -1,12 +1,15 @@
 import React from "react";
 import DisplayCard from "./DisplayCard";
 import { StyledButton } from "./StyledComponents";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
+
 
 const HistoryPage = ({tickers, handleClick}) => {
 
     return(
         <div>
-            <div>History</div>
+            <h3>Session History</h3>
             {tickers.slice(0, 10).map((ticker) => {
                 return(
                     <DisplayCard
