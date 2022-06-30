@@ -167,6 +167,14 @@ const App = () => {
                 clicked = {handleClick}
                 handleChange = {handleChange}
                 coolDown={coolDown} />
+
+              {bodyText && !headerText &&
+                <div>
+                <div><i>{bodyText}</i></div>
+                <div><i>{footerText}</i></div>
+                </div>
+              }
+              
               {headerText && <DisplayCard
                 loading={loading}
                 headerText={headerText}
@@ -191,7 +199,8 @@ const App = () => {
               
               />} />
         </Routes>
-        <div>Note: the API only allows 5 requests per minute, and 500 total requests per day.</div>
+        <br></br>
+        <div><b>Note:</b> the API only allows 5 requests per minute, and 500 total requests per day.</div>
       </div>
       </BrowserRouter>
     </StyledAppDiv>
