@@ -8,10 +8,11 @@ import HistoryPage from './components/HistoryPage';
 import uniqid from 'uniqid';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { collection, addDoc, setDoc, getDoc, doc, Timestamp, updateDoc, arrayUnion, deleteField, arrayRemove } from "firebase/firestore";
-import { db } from './firebase';
+import { db, auth } from './firebase';
 import FavoritesPage from './components/FavoritesPage';
 import { StyledAppDiv } from './components/StyledComponents';
-
+import LoginPage from './components/LoginPage';
+import { onAuthStateChanged } from 'firebase/auth';
 
 //let myFavorites = [];
 async function checkForRepeats(newTickerName) {
@@ -52,8 +53,22 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [coolDown, setCoolDown] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [userName, setUserName] = useState('Guest');
   
+  useEffect(() => {
+    monitorAuthState();
+  },[]);
 
+  const monitorAuthState = async () => {
+    onAuthStateChanged(auth, user => {
+        if (user) {
+            setUserName(user.displayName);
+            
+        } else {
+          setUserName('Guest');  
+        }
+    });
+  }
   
 
   async function addToFavorites(tickerName) {
@@ -157,6 +172,8 @@ const App = () => {
 
       <div>
         <LandingPage />
+        <br></br>
+        <div>Welcome, {userName}</div>
         <Routes>
           {/* To get Firebase hosting to direct to /finance-react-app, I added a "redirect" to the firebase.json */}
           <Route path="/finance-react-app" element = {
@@ -193,11 +210,12 @@ const App = () => {
               showButton={false}
               handleClick={clearSearchHistory} />} />
           <Route path="favorites" element = {
-            <FavoritesPage
-              
-              handleClick={printNothing}
-              
-              />} />
+            <div>
+              <LoginPage />
+              <FavoritesPage
+                handleClick={printNothing} />
+                
+            </div> } />
         </Routes>
         <br></br>
         <div><b>Note:</b> the API only allows 5 requests per minute, and 500 total requests per day.</div>

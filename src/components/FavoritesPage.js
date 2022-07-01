@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import DisplayCard from "./DisplayCard";
 import { StyledButton } from "./StyledComponents";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
-import { db } from "../firebase";
+import { db, auth } from "../firebase";
 import { getEquityData } from "../getEquityData";
+import { onAuthStateChanged } from "firebase/auth";
 
 
 const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisabled}) => {
@@ -11,10 +12,26 @@ const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisa
     const [myFavorites, setMyFavorites] = useState([]);
     const [favoriteData, setFavoriteData] = useState({"test":{bodyText: "test"}})
     const [coolDown, setCoolDown] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
         loadFavorites();
+        monitorAuthState();
     },[]);
+
+    
+    const monitorAuthState = async () => {
+        onAuthStateChanged(auth, user => {
+            if (user) {
+                setIsLoggedIn(true);
+                
+            } else {
+                setIsLoggedIn(false);  
+            }
+        });
+    }
+
+
 
     async function loadFavorites() {
         const docRef = doc(db, "stocks", "favorites");
@@ -55,7 +72,10 @@ const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisa
       }
 
     return(
+        
         <div>
+            {isLoggedIn &&
+            <div>
             <h3>Favorites</h3>
             {myFavorites.map((favorite) => {
                 
@@ -79,7 +99,7 @@ const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisa
             })}
 
             <StyledButton onClick={handleClick}>Does nothing</StyledButton>
-
+            </div> } 
         </div>
     )
 }
