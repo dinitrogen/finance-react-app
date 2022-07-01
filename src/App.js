@@ -54,6 +54,7 @@ const App = () => {
   const [coolDown, setCoolDown] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [userName, setUserName] = useState('Guest');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   
   useEffect(() => {
     monitorAuthState();
@@ -63,9 +64,11 @@ const App = () => {
     onAuthStateChanged(auth, user => {
         if (user) {
             setUserName(user.displayName);
+            setIsLoggedIn(true);
             
         } else {
-          setUserName('Guest');  
+          setUserName('Guest');
+          setIsLoggedIn(false); 
         }
     });
   }
@@ -197,7 +200,7 @@ const App = () => {
                 headerText={headerText}
                 bodyText={bodyText}
                 footerText={footerText}
-                showButton={true}
+                showButton={(isLoggedIn) ? true: false}
                 handlePrimary={!isFavorite}
                 buttonText={(isFavorite) ? "Remove from favorites" : "Add to favorites"}
                 handleClick={(!isFavorite) ? () => addToFavorites(headerText) : () => removeFromFavorites(headerText)}
