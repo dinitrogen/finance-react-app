@@ -14,32 +14,31 @@ import { StyledAppDiv } from './components/StyledComponents';
 import LoginPage from './components/LoginPage';
 import { onAuthStateChanged } from 'firebase/auth';
 
-//let myFavorites = [];
-async function checkForRepeats(newTickerName) {
-  const docRef = doc(db, "stocks", "favorites");
+
+async function checkForRepeats(userEmail, newTickerName) {
+  // If no user is logged in (i.e. userEmail is undefined), exit the function or it will cause errors
+  if (!userEmail) { 
+    return;
+  }
+  
+  const docRef = doc(db, "users", userEmail);
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
-    // console.log(docSnap.data().favorites);
+    
     let currentFavorites = docSnap.data().favorites;
-    //return docSnap.data().favorites;
+    // console.log(currentFavorites);
     for (let favorite of currentFavorites) {
-      // console.log(favorite["ticker"], newTickerName);
       if (favorite["ticker"] === newTickerName) {
-        // console.log("Found repeat!");
         return false;
       }
     }
-    // console.log("No repeats found");
     return true;
 
   } else {
     console.log("No such document!");
   }
 }
-
-
-
 
 const printNothing = () => {console.log("Nothing!")}
 
@@ -54,6 +53,7 @@ const App = () => {
   const [coolDown, setCoolDown] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [userName, setUserName] = useState('Guest');
+  const [currentUser, setCurrentUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   
   useEffect(() => {
@@ -63,6 +63,7 @@ const App = () => {
   const monitorAuthState = async () => {
     onAuthStateChanged(auth, user => {
         if (user) {
+            setCurrentUser(user);
             setUserName(user.displayName);
             setIsLoggedIn(true);
             
@@ -74,10 +75,11 @@ const App = () => {
   }
   
 
-  async function addToFavorites(tickerName) {
+  async function addToFavorites(user,tickerName) {
   
     // TODO: Check if ticker is already in favorites
-    if (await checkForRepeats(tickerName)) {
+    let userEmail = user.email;
+    if (await checkForRepeats(userEmail, tickerName)) {
 
       const newFavorite = {
         ticker: tickerName,
@@ -85,39 +87,33 @@ const App = () => {
         id: uniqid()
       }
       
-      // const firestoreFavorites = {
-      //   favorites: myFavorites
-      // }
     
       try {
-        // updateDoc won't work unless a favorites array already exists
-        await updateDoc(doc(db, "stocks", "favorites"), {favorites: arrayUnion(newFavorite)});
+        const docSnap = await getDoc(doc(db, "users", userEmail))
+        await updateDoc(doc(db, "users", userEmail), {favorites: arrayUnion(newFavorite)});
         console.log("added!");
         setIsFavorite(true);
-        //console.log(myFavorites);
+
       } catch(error) {
         console.log("Error: ", error)
       }
     } else {
       console.log("Not added");
     }
-    
   }
 
-  const removeFromFavorites = async (tickerName) => {
+  const removeFromFavorites = async (user, tickerName) => {
+    let userEmail = user.email;
     console.log("removed!");
     setIsFavorite(false);
-    const docSnap = await getDoc(doc(db, "stocks", "favorites"));
+    const docSnap = await getDoc(doc(db, "users", userEmail));
     const arr = docSnap.data().favorites;
-    // console.log(docSnap.data().favorites);
   
     const index = arr.findIndex(object => {
       return object.ticker === tickerName;
     });
-    // console.log(index);
 
-    await updateDoc(doc(db, "stocks", "favorites"), {favorites: arrayRemove(arr[index])});
-
+    await updateDoc(doc(db, "users", userEmail), {favorites: arrayRemove(arr[index])});
   }
 
   const handleChange = (event) => {
@@ -151,8 +147,7 @@ const App = () => {
     if (searchResults[0]) {
       
       // TODO: add a button or toggle to add to favorites
-      // addToFavorites(newTicker);
-      if (await checkForRepeats(searchResults[1])) {
+      if (await checkForRepeats(currentUser.email, searchResults[1])) {
         setIsFavorite(false)
       } else setIsFavorite(true)
       
@@ -203,7 +198,7 @@ const App = () => {
                 showButton={(isLoggedIn) ? true: false}
                 handlePrimary={!isFavorite}
                 buttonText={(isFavorite) ? "Remove from favorites" : "Add to favorites"}
-                handleClick={(!isFavorite) ? () => addToFavorites(headerText) : () => removeFromFavorites(headerText)}
+                handleClick={(!isFavorite) ? () => addToFavorites(currentUser, headerText) : () => removeFromFavorites(currentUser, headerText)}
                 />}
             </div>} />
           

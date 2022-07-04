@@ -13,6 +13,8 @@ const rotate = keyframes`
 
 const StyledAppDiv = styled.div`
     margin: 2em;
+    opacity: var(--opacity);
+    background-color: var(--color);
 `;
 
 const StyledDisplayCard = styled.div`

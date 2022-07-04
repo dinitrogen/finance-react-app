@@ -15,7 +15,7 @@ const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisa
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-        loadFavorites();
+        //loadFavorites(); This causes errors, and doesn't seem to be necessary.
         monitorAuthState();
     },[]);
 
@@ -24,23 +24,25 @@ const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisa
         onAuthStateChanged(auth, user => {
             if (user) {
                 setIsLoggedIn(true);
+                // console.log(user.email + " log in");
+                loadFavorites(user.email);
                 
             } else {
-                setIsLoggedIn(false);  
+                setIsLoggedIn(false);
+                setMyFavorites([]);
             }
         });
     }
 
 
 
-    async function loadFavorites() {
-        const docRef = doc(db, "stocks", "favorites");
+    async function loadFavorites(userEmail) {
+        const docRef = doc(db, "users", userEmail);
         const docSnap = await getDoc(docRef);
       
         if (docSnap.exists()) {
-          // console.log(docSnap.data().favorites);
+          //console.log(docSnap.data().favorites)
           let firebaseFavorites = docSnap.data().favorites;
-          //return docSnap.data().favorites;
           setMyFavorites(firebaseFavorites);
         } else {
           console.log("No such document!");
@@ -48,16 +50,13 @@ const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisa
       }
 
     const getQuote = async (ticker) => {
-        console.log("getting quote");
+        // console.log("getting quote");
         let quote = await getEquityData(ticker);
         if (quote[4]) {startCoolDownTimer()}
-        console.log(quote);
+        // console.log(quote);
         setFavoriteData( {...favoriteData,
             [ticker]: {bodyText: quote[2], footerText: quote[3]}
         });
-        // console.log(favoriteData);
-        //console.log(data[ticker].bodyText);
-        //setFavoriteData(data)
     } 
 
     // This is repeat code from App. Can they be consolidated?

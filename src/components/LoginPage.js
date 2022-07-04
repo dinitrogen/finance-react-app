@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { StyledButton, StyledInput } from "./StyledComponents";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 import { 
     AuthErrorCodes,
     connectAuthEmulator,
@@ -10,6 +10,7 @@ import {
     signOut,
     updateProfile
 } from "firebase/auth";
+import { updateDoc, doc, getDoc, arrayUnion, setDoc } from "firebase/firestore";
 
 
 // connectAuthEmulator(auth, "http://localhost:9099");
@@ -21,7 +22,6 @@ const LoginPage = () => {
         onAuthStateChanged(auth, user => {
             if (user) {
                 setUserSignedIn(true);
-                // console.log(user);
                 setDisplayName(user.displayName);
             } else {
                 setUserSignedIn(false);
@@ -36,7 +36,6 @@ const LoginPage = () => {
         
         try {
             const userCredential = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
-            // console.log(userCredential.user);
             setUserName('');
             setUserEmail('');
             setUserPassword('');
@@ -59,7 +58,17 @@ const LoginPage = () => {
             // await updateProfile(auth.currentUser, {displayName: userName});
             // Setting display name to userEmail for now...
             await updateProfile(auth.currentUser, {displayName: userEmail});
-            // console.log(userCredential.user);
+            
+
+            // add new user data to the firestore user list
+            const newUser = {
+                            email: userEmail,
+                            favorites: []
+                        }
+            console.log(newUser);
+
+            await setDoc(doc(db, "users", userEmail), newUser);
+
             setUserName('');
             setUserEmail('');
             setUserPassword('');
