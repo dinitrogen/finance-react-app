@@ -60,11 +60,15 @@ const App = () => {
     monitorAuthState();
   },[]);
 
+
   const monitorAuthState = async () => {
     onAuthStateChanged(auth, user => {
-        if (user) {
+        if (user) {           
+          
             setCurrentUser(user);
-            setUserName(user.displayName);
+            
+            //  user display name does not update before setUserName is called, so using user.email for now.
+            setUserName(user.email);
             setIsLoggedIn(true);
             
         } else {
