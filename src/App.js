@@ -66,14 +66,19 @@ const App = () => {
         if (user) {           
           
             setCurrentUser(user);
-            
+
             //  user display name does not update before setUserName is called, so using user.email for now.
             setUserName(user.email);
             setIsLoggedIn(true);
             
         } else {
           setUserName('Guest');
-          setIsLoggedIn(false); 
+          setIsLoggedIn(false);
+          
+          // Clear the currently displayed card on the search page
+          setHeaderText('');
+          setBodyText('');
+          setFooterText(''); 
         }
     });
   }
