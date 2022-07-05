@@ -4,6 +4,7 @@ import LandingPage from './components/LandingPage';
 import SearchBar from './components/SearchBar';
 import DisplayCard from './components/DisplayCard';
 import { getEquityData } from './getEquityData';
+import { getIndexData } from './getIndexData';
 import HistoryPage from './components/HistoryPage';
 import uniqid from 'uniqid';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -55,9 +56,17 @@ const App = () => {
   const [userName, setUserName] = useState('Guest');
   const [currentUser, setCurrentUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [indexResults, setIndexResults] = useState([]);
   
   useEffect(() => {
     monitorAuthState();
+    
+    const loadIndexData = async () => {
+      const indexData = await getIndexData('^GSPC');
+      setIndexResults(indexData);
+    }
+    loadIndexData();
+
   },[]);
 
 
@@ -148,7 +157,8 @@ const App = () => {
   async function runEquitySearch(event) {
     event.preventDefault();
     setLoading(true);
-    const searchResults = await getEquityData(ticker);
+    //const searchResults = await getEquityData(ticker);
+    const searchResults = await getIndexData(ticker);
     setLoading(false);
     setHeaderText(searchResults[1]);
     setBodyText(searchResults[2]);
@@ -181,6 +191,11 @@ const App = () => {
         <LandingPage />
         <br></br>
         <div>Welcome, {userName}</div>
+        <DisplayCard
+          headerText={indexResults[1]}
+          bodyText={indexResults[2]}
+          footerText={indexResults[3]}
+           />
         <Routes>
           {/* To get Firebase hosting to direct to /finance-react-app, I added a "redirect" to the firebase.json */}
           <Route path="/finance-react-app" element = {

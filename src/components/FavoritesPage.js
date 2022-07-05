@@ -5,6 +5,7 @@ import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import { getEquityData } from "../getEquityData";
 import { onAuthStateChanged } from "firebase/auth";
+import { getIndexData } from "../getIndexData";
 
 
 const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisabled}) => {
@@ -51,7 +52,8 @@ const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisa
 
     const getQuote = async (ticker) => {
         // console.log("getting quote");
-        let quote = await getEquityData(ticker);
+        //let quote = await getEquityData(ticker);
+        let quote = await getIndexData(ticker); 
         if (quote[4]) {startCoolDownTimer()}
         // console.log(quote);
         setFavoriteData( {...favoriteData,
