@@ -60,7 +60,7 @@ async function getEquityData(tickerSymbol) {
 
     } catch(error) {
         console.log('Error! ' + error);
-        symbol = 'Error!';
+        symbol = '';
         let bodyText = 'Invalid request.';
         let footerText = 'Please try again.';
         let success = false;

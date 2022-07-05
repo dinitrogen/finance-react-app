@@ -165,7 +165,6 @@ const App = () => {
     setFooterText(searchResults[3]);
     if (searchResults[0]) {
       
-      // TODO: add a button or toggle to add to favorites
       if (await checkForRepeats(currentUser.email, searchResults[1])) {
         setIsFavorite(false)
       } else setIsFavorite(true)

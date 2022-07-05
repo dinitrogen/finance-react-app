@@ -38,12 +38,12 @@ async function getIndexData(tickerSymbol) {
 
     } catch(error) {
         console.log('Error! ' + error);
-        // symbol = 'Error!';
-        // let bodyText = 'Invalid request.';
-        // let footerText = 'Please try again.';
-        // let success = false;
+        let symbol = '';
+        let bodyText = 'Invalid request.';
+        let footerText = 'Please try again.';
+        let success = false;
 
-        // return [success, symbol, bodyText, footerText];
+        return [success, symbol, bodyText, footerText];
     }
 
 }
