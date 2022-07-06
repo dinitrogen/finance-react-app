@@ -6,6 +6,7 @@ import { db, auth } from "../firebase";
 import { getEquityData } from "../getEquityData";
 import { onAuthStateChanged } from "firebase/auth";
 import { getIndexData } from "../getIndexData";
+import { getStockChartData } from "../getStockChartData";
 
 
 const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisabled}) => {
@@ -53,11 +54,26 @@ const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisa
     const getQuote = async (ticker) => {
         // console.log("getting quote");
         //let quote = await getEquityData(ticker);
-        let quote = await getIndexData(ticker); 
-        if (quote[4]) {startCoolDownTimer()}
+        // let quote = await getIndexData(ticker);
+        let quote = await getStockChartData(ticker); 
+        if (quote[4] && !quote[5]) {startCoolDownTimer()}
         // console.log(quote);
         setFavoriteData( {...favoriteData,
-            [ticker]: {bodyText: quote[2], footerText: quote[3]}
+            [ticker]: {bodyText: quote[2], footerText: quote[3],
+                stockChartData: 
+                {
+                    labels: quote[4].slice(-30),
+                    datasets: [
+                      {
+                        label: quote[1],
+                        data: quote[5].slice(-30),
+                        borderColor: 'rgb(255, 99, 132)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                      },
+                    ],
+              
+                  }
+            }
         });
     } 
 
@@ -89,6 +105,8 @@ const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisa
                     bodyText={favoriteData[favorite.ticker] ? favoriteData[favorite.ticker].bodyText : ""}
                     footerText={favoriteData[favorite.ticker] ? favoriteData[favorite.ticker].footerText : ""} 
                     
+                    chartData={favoriteData[favorite.ticker] ? favoriteData[favorite.ticker].stockChartData : null}
+
                     showButton={true}
                     buttonText={favoriteData[favorite.ticker] ? "Refresh quote" : "Fetch Quote"}
                     handleClick={() => getQuote(favorite.ticker)}

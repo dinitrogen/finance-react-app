@@ -33,7 +33,7 @@ async function getIndexData(tickerSymbol) {
         //console.log(footerText);
         let success = true;
 
-        return [success, symbol, bodyText, footerText]    
+        return [success, symbol, bodyText, footerText];
         
 
     } catch(error) {

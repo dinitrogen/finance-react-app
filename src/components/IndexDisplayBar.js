@@ -5,12 +5,15 @@ import { getIndexData } from "../getIndexData";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import uniqid from 'uniqid';
+import IndexDisplayCard from "./IndexDisplayCard";
 
 const IndexDisplayBar = () => {
 
     const [indexResults, setIndexResults] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const loadIndexData = async () => {
+        setIsLoading(true);
         const firebaseIndexTickers = await (await getDoc(doc(db, "tickers", "indices"))).data().tickers;
 
         const tempData = firebaseIndexTickers.map( async (indexTicker) => {
@@ -20,6 +23,7 @@ const IndexDisplayBar = () => {
         });
         const resolvedData = await Promise.all(tempData);
         setIndexResults(resolvedData);
+        setIsLoading(false);
       
     }
             
@@ -32,13 +36,13 @@ const IndexDisplayBar = () => {
 
     return (
         <div>
-            <h4>Market Indices</h4>
+            <h4>Market Watch</h4>
         <StyledDisplayBar>
-            
+            {isLoading && <div>Loading...</div>}
             {indexResults.map((indexResult) => {
                 
                 return(
-                    <DisplayCard
+                    <IndexDisplayCard
                         key={indexResult.key}
                         headerText={`${indexResult.name} (${indexResult.ticker})`}
                         bodyText={indexResult.bodyText}

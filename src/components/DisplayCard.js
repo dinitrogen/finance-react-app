@@ -1,7 +1,8 @@
 import React from "react";
+import StockChart from "./StockChart";
 import { StyledRotateDiv, StyledDisplayCard, StyledButton } from "./StyledComponents";
 
-const DisplayCard = ({headerText, bodyText, footerText, loading, buttonText, handleClick, handleDisabled, handlePrimary, showButton}) => {
+const DisplayCard = ({headerText, bodyText, footerText, loading, buttonText, handleClick, handleDisabled, handlePrimary, showButton, chartData}) => {
     
     if (loading) {
         return (
@@ -11,6 +12,11 @@ const DisplayCard = ({headerText, bodyText, footerText, loading, buttonText, han
 
     return (
         <StyledDisplayCard>
+            {chartData &&
+            <StockChart
+                chartData={chartData}
+            />
+            }
             <div>{headerText}</div>
             <div>{bodyText}</div>
             <div>{footerText}</div>

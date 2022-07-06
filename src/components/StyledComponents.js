@@ -14,8 +14,10 @@ const rotate = keyframes`
 const StyledDisplayBar = styled.div`
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: flex-start;
     font-size: 0.7em;
+    border: solid palevioletred 3px;
+    border-radius: 10px;
     
 `;
 

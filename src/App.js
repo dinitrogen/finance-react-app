@@ -15,7 +15,8 @@ import { StyledAppDiv } from './components/StyledComponents';
 import LoginPage from './components/LoginPage';
 import { onAuthStateChanged } from 'firebase/auth';
 import IndexDisplayBar from './components/IndexDisplayBar';
-
+import StockChart from './components/StockChart';
+import { getStockChartData } from './getStockChartData';
 
 async function checkForRepeats(userEmail, newTickerName) {
   // If no user is logged in (i.e. userEmail is undefined), exit the function or it will cause errors
@@ -57,6 +58,7 @@ const App = () => {
   const [userName, setUserName] = useState('Guest');
   const [currentUser, setCurrentUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [stockChartData, setStockChartData] = useState({});
 
   
   
@@ -155,11 +157,29 @@ const App = () => {
     event.preventDefault();
     setLoading(true);
     //const searchResults = await getEquityData(ticker);
-    const searchResults = await getIndexData(ticker);
+    // const searchResults = await getIndexData(ticker);
+    const searchResults = await getStockChartData(ticker);
     setLoading(false);
     setHeaderText(searchResults[1]);
     setBodyText(searchResults[2]);
     setFooterText(searchResults[3]);
+    
+    if (searchResults[4] && searchResults[5]) {
+      setStockChartData( {
+        labels: searchResults[4].slice(-30),
+        datasets: [
+          {
+            label: searchResults[1],
+            data: searchResults[5].slice(-30),
+            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+          },
+        ],
+
+      } );
+    }
+
+
     if (searchResults[0]) {
       
       if (await checkForRepeats(currentUser.email, searchResults[1])) {
@@ -170,7 +190,7 @@ const App = () => {
       setTickers([newTicker, ...tickers]);
     
     }
-    if (searchResults[4]) {
+    if (searchResults[4] && !searchResults[5]) {
       startCoolDownTimer();
     }
   }
@@ -190,6 +210,8 @@ const App = () => {
         
         <IndexDisplayBar/>
 
+
+        
         <Routes>
           {/* To get Firebase hosting to direct to /finance-react-app, I added a "redirect" to the firebase.json */}
           <Route path="/finance-react-app" element = {
@@ -208,7 +230,9 @@ const App = () => {
                 </div>
               }
               
-              {headerText && <DisplayCard
+              {headerText && 
+              
+              <DisplayCard
                 loading={loading}
                 headerText={headerText}
                 bodyText={bodyText}
@@ -217,6 +241,7 @@ const App = () => {
                 handlePrimary={!isFavorite}
                 buttonText={(isFavorite) ? "Remove from favorites" : "Add to favorites"}
                 handleClick={(!isFavorite) ? () => addToFavorites(currentUser, headerText) : () => removeFromFavorites(currentUser, headerText)}
+                chartData={stockChartData}
                 />}
             </div>} />
           
