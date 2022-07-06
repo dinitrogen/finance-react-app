@@ -14,6 +14,7 @@ import FavoritesPage from './components/FavoritesPage';
 import { StyledAppDiv } from './components/StyledComponents';
 import LoginPage from './components/LoginPage';
 import { onAuthStateChanged } from 'firebase/auth';
+import IndexDisplayBar from './components/IndexDisplayBar';
 
 
 async function checkForRepeats(userEmail, newTickerName) {
@@ -56,16 +57,12 @@ const App = () => {
   const [userName, setUserName] = useState('Guest');
   const [currentUser, setCurrentUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [indexResults, setIndexResults] = useState([]);
+
+  
   
   useEffect(() => {
     monitorAuthState();
-    
-    const loadIndexData = async () => {
-      const indexData = await getIndexData('^GSPC');
-      setIndexResults(indexData);
-    }
-    loadIndexData();
+
 
   },[]);
 
@@ -190,11 +187,9 @@ const App = () => {
         <LandingPage />
         <br></br>
         <div>Welcome, {userName}</div>
-        <DisplayCard
-          headerText={indexResults[1]}
-          bodyText={indexResults[2]}
-          footerText={indexResults[3]}
-           />
+        
+        <IndexDisplayBar/>
+
         <Routes>
           {/* To get Firebase hosting to direct to /finance-react-app, I added a "redirect" to the firebase.json */}
           <Route path="/finance-react-app" element = {

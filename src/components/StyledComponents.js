@@ -11,6 +11,14 @@ const rotate = keyframes`
     }
 `;
 
+const StyledDisplayBar = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    font-size: 0.7em;
+    
+`;
+
 const StyledAppDiv = styled.div`
     margin: 2em;
     opacity: var(--opacity);
@@ -26,7 +34,12 @@ const StyledDisplayCard = styled.div`
     background-color: white;
     color: black;
     font-weight: bold;
+    
 `;
+
+
+
+
 
 const StyledRotateDiv = styled.div`
     display: inline-block;
@@ -54,4 +67,4 @@ const StyledInput = styled.input`
     padding: 1em;
 `;
 
-export {StyledAppDiv, StyledButton, StyledInput, StyledRotateDiv, StyledDisplayCard};
+export {StyledAppDiv, StyledButton, StyledInput, StyledRotateDiv, StyledDisplayCard, StyledDisplayBar};
