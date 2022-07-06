@@ -8,7 +8,7 @@ const SearchBar = ({clicked, ticker, handleChange, coolDown}) => {
         <div>
             <form className="searchForm">
                 
-                <label><h3>Ticker Search</h3>
+                <label><h4>Ticker Search</h4>
                     <StyledInput
                         id="searchBar"
                         placeholder="Search for ticker (eg. VTI)"

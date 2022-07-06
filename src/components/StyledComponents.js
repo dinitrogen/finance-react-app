@@ -18,7 +18,7 @@ const StyledDisplayBar = styled.div`
     font-size: 0.7em;
     border: solid palevioletred 3px;
     border-radius: 10px;
-    
+    max-width: 50em;
 `;
 
 const StyledAppDiv = styled.div`
@@ -26,21 +26,6 @@ const StyledAppDiv = styled.div`
     opacity: var(--opacity);
     background-color: var(--color);
 `;
-
-const StyledDisplayCard = styled.div`
-    margin: 1em;
-    width: 15em;
-    padding: 10px;
-    border: solid palevioletred 3px;
-    border-radius: 10px;
-    background-color: white;
-    color: black;
-    font-weight: bold;
-    
-`;
-
-
-
 
 
 const StyledRotateDiv = styled.div`
@@ -69,4 +54,4 @@ const StyledInput = styled.input`
     padding: 1em;
 `;
 
-export {StyledAppDiv, StyledButton, StyledInput, StyledRotateDiv, StyledDisplayCard, StyledDisplayBar};
+export {StyledAppDiv, StyledButton, StyledInput, StyledRotateDiv, StyledDisplayBar};

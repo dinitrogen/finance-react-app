@@ -18,7 +18,7 @@ const IndexDisplayBar = () => {
 
         const tempData = firebaseIndexTickers.map( async (indexTicker) => {
             const results =  await getIndexData(indexTicker.ticker);
-            return {key: uniqid(), name: indexTicker.name, ticker: results[1], bodyText: results[2], footerText: results[3]}
+            return {key: uniqid(), name: indexTicker.name, ticker: results[1], bodyText: results[2], footerText: results[3], isPositive: results[4]}
             
         });
         const resolvedData = await Promise.all(tempData);
@@ -46,7 +46,8 @@ const IndexDisplayBar = () => {
                         key={indexResult.key}
                         headerText={`${indexResult.name} (${indexResult.ticker})`}
                         bodyText={indexResult.bodyText}
-                        footerText={indexResult.footerText}    
+                        footerText={indexResult.footerText}
+                        isPositive={indexResult.isPositive}    
                     />
                 );
             })}

@@ -50,6 +50,7 @@ const App = () => {
   const [headerText, setHeaderText] = useState('');
   const [bodyText, setBodyText] = useState('');
   const [footerText, setFooterText] = useState('');
+  const [isPositive, setIsPositive] = useState(false);
   const [ticker, setTicker] = useState('');
   const [tickers, setTickers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -163,6 +164,7 @@ const App = () => {
     setHeaderText(searchResults[1]);
     setBodyText(searchResults[2]);
     setFooterText(searchResults[3]);
+    setIsPositive(searchResults[6]);
     
     if (searchResults[4] && searchResults[5]) {
       setStockChartData( {
@@ -186,7 +188,7 @@ const App = () => {
         setIsFavorite(false)
       } else setIsFavorite(true)
       
-      let newTicker = {key: uniqid(),headerText: searchResults[1], bodyText: searchResults[2], footerText: searchResults[3]};
+      let newTicker = {key: uniqid(),headerText: searchResults[1], bodyText: searchResults[2], footerText: searchResults[3], isPositive: searchResults[6]};
       setTickers([newTicker, ...tickers]);
     
     }
@@ -207,10 +209,8 @@ const App = () => {
         <LandingPage />
         <br></br>
         <div>Welcome, {userName}</div>
-        
+
         <IndexDisplayBar/>
-
-
         
         <Routes>
           {/* To get Firebase hosting to direct to /finance-react-app, I added a "redirect" to the firebase.json */}
@@ -237,6 +237,7 @@ const App = () => {
                 headerText={headerText}
                 bodyText={bodyText}
                 footerText={footerText}
+                isPositive={isPositive}
                 showButton={(isLoggedIn) ? true: false}
                 handlePrimary={!isFavorite}
                 buttonText={(isFavorite) ? "Remove from favorites" : "Add to favorites"}

@@ -11,6 +11,7 @@ async function getIndexData(tickerSymbol) {
         const results = await response.json();
         //console.log(results.chart.result[0].meta);
         
+        let isPositive = false;
 
         let lastRefreshed = results.chart.result[0].meta.regularMarketTime;
         let currentDate = new Date(lastRefreshed * 1000);
@@ -19,6 +20,7 @@ async function getIndexData(tickerSymbol) {
         let currentPrice = results.chart.result[0].meta.regularMarketPrice;
         let percentChange = ((currentPrice - lastClosePrice)/lastClosePrice * 100);
         if (percentChange > 0) {
+            isPositive = true;
             percentChange = "+" + percentChange.toFixed(2).toString();
         } else {
             percentChange = percentChange.toFixed(2).toString();
@@ -28,12 +30,12 @@ async function getIndexData(tickerSymbol) {
 
         // console.log(`Price: $${closePrice} (${percentChange}%)`);
         let symbol = results.chart.result[0].meta.symbol;
-        let bodyText = `Price: $${currentPrice} (${percentChange}%)`;
-        let footerText = `Last refreshed: ${currentDate.toLocaleString()}`;
+        let bodyText = `$${currentPrice} (${percentChange}%)`;
+        let footerText = `Updated: ${currentDate.toLocaleDateString()}`;
         //console.log(footerText);
         let success = true;
 
-        return [success, symbol, bodyText, footerText];
+        return [success, symbol, bodyText, footerText, isPositive];
         
 
     } catch(error) {

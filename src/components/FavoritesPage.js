@@ -15,6 +15,7 @@ const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisa
     const [favoriteData, setFavoriteData] = useState({"test":{bodyText: "test"}})
     const [coolDown, setCoolDown] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    
 
     useEffect(() => {
         //loadFavorites(); This causes errors, and doesn't seem to be necessary.
@@ -52,11 +53,16 @@ const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisa
       }
 
     const getQuote = async (ticker) => {
+        setFavoriteData({...favoriteData, [ticker]: {isLoading:true}});
         // console.log("getting quote");
         //let quote = await getEquityData(ticker);
         // let quote = await getIndexData(ticker);
         let quote = await getStockChartData(ticker); 
-        if (quote[4] && !quote[5]) {startCoolDownTimer()}
+        if (quote[4] && !quote[5]) {
+            startCoolDownTimer();
+            setFavoriteData({...favoriteData, [ticker]: {isLoading:false, bodyText:"Call limit exceeded. Wait 30s and try again"}});
+            return;
+        }
         // console.log(quote);
         setFavoriteData( {...favoriteData,
             [ticker]: {bodyText: quote[2], footerText: quote[3],
@@ -72,9 +78,12 @@ const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisa
                       },
                     ],
               
-                  }
+                  },
+                  isFavorite: quote[6],
+                  isLoading: false,
             }
         });
+
     } 
 
     // This is repeat code from App. Can they be consolidated?
@@ -100,11 +109,13 @@ const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisa
                 
                 return(
                     <DisplayCard
+                    loading={favoriteData[favorite.ticker] ? favoriteData[favorite.ticker].isLoading : false}
                     key={favorite.id}
                     headerText={favorite.ticker}
                     bodyText={favoriteData[favorite.ticker] ? favoriteData[favorite.ticker].bodyText : ""}
                     footerText={favoriteData[favorite.ticker] ? favoriteData[favorite.ticker].footerText : ""} 
-                    
+                    isPositive={favoriteData[favorite.ticker] ? favoriteData[favorite.ticker].isFavorite : false}
+
                     chartData={favoriteData[favorite.ticker] ? favoriteData[favorite.ticker].stockChartData : null}
 
                     showButton={true}

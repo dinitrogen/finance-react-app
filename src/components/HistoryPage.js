@@ -16,7 +16,8 @@ const HistoryPage = ({tickers, handleClick}) => {
                     key={ticker.key}
                     headerText={ticker.headerText}
                     bodyText={ticker.bodyText}
-                    footerText={ticker.footerText} />
+                    footerText={ticker.footerText}
+                    isPositive={ticker.isPositive} />
                         
                 );
             })}

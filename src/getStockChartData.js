@@ -34,11 +34,14 @@ async function getStockChartData(tickerSymbol) {
         
         } else  {
     
+            let isPositive = false;
             let lastRefreshed = results["Meta Data"]["3. Last Refreshed"];
-            let closePrice = results["Time Series (Daily)"][lastRefreshed]["4. close"];
-            let openPrice = results["Time Series (Daily)"][lastRefreshed]["1. open"];
+            // TODO: Investigate the API object, sometimes lastRefreshed date includes a timestamp so must be sliced
+            let closePrice = results["Time Series (Daily)"][lastRefreshed.slice(0,10)]["4. close"];
+            let openPrice = results["Time Series (Daily)"][lastRefreshed.slice(0,10)]["1. open"];
             let percentChange = ((closePrice - openPrice)/openPrice * 100);
             if (percentChange > 0) {
+                isPositive = true;
                 percentChange = "+" + percentChange.toFixed(2).toString();
             } else {
              percentChange = percentChange.toFixed(2).toString();
@@ -48,8 +51,8 @@ async function getStockChartData(tickerSymbol) {
 
             // console.log(`Price: $${closePrice} (${percentChange}%)`);
             
-            let bodyText = `Price: $${closePrice} (${percentChange}%)`;
-            let footerText = `Last refreshed: ${lastRefreshed}`;
+            let bodyText = `$${closePrice} (${percentChange}%)`;
+            let footerText = `Updated: ${lastRefreshed}`;
             let success = true;
 
             let labels = [];
@@ -61,7 +64,7 @@ async function getStockChartData(tickerSymbol) {
             // console.log(labels);
             // console.log(data);
 
-            return [success, symbol, bodyText, footerText, labels, data];
+            return [success, symbol, bodyText, footerText, labels, data, isPositive];
             
             
         }

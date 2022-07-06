@@ -13,11 +13,15 @@ const StyledDisplayCard = styled.div`
     
 `;
 
-const IndexDisplayCard = ({headerText, bodyText, footerText}) => {
+const StyledBodyText = styled.div`
+    color: ${props => props.positive ? "green" : "red"};
+`;
+
+const IndexDisplayCard = ({headerText, bodyText, footerText, isPositive}) => {
     return (
         <StyledDisplayCard>
             <div>{headerText}</div>
-            <div>{bodyText}</div>
+            <StyledBodyText positive={isPositive}>{bodyText}</StyledBodyText>
             <div>{footerText}</div>
         </StyledDisplayCard>
     )

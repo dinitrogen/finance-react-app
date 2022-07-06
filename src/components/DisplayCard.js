@@ -1,8 +1,25 @@
 import React from "react";
 import StockChart from "./StockChart";
-import { StyledRotateDiv, StyledDisplayCard, StyledButton } from "./StyledComponents";
+import { StyledRotateDiv, StyledButton } from "./StyledComponents";
+import styled from "styled-components";
 
-const DisplayCard = ({headerText, bodyText, footerText, loading, buttonText, handleClick, handleDisabled, handlePrimary, showButton, chartData}) => {
+const StyledDisplayCard = styled.div`
+    margin: 1em;
+    width: 15em;
+    padding: 10px;
+    border: solid palevioletred 3px;
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    
+`;
+
+const StyledBodyText = styled.div`
+    color: ${props => props.positive ? "green" : "red"};
+`;
+
+const DisplayCard = ({headerText, bodyText, footerText, loading, buttonText, handleClick, handleDisabled, handlePrimary, showButton, chartData, isPositive}) => {
     
     if (loading) {
         return (
@@ -18,7 +35,7 @@ const DisplayCard = ({headerText, bodyText, footerText, loading, buttonText, han
             />
             }
             <div>{headerText}</div>
-            <div>{bodyText}</div>
+            <StyledBodyText positive={isPositive}>{bodyText}</StyledBodyText>
             <div>{footerText}</div>
             
             {showButton &&
