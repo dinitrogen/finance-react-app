@@ -1,26 +1,41 @@
 import React, { useEffect, useState } from "react";
 import DisplayCard from "./DisplayCard";
 import { StyledButton } from "./StyledComponents";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import { getEquityData } from "../getEquityData";
 import { onAuthStateChanged } from "firebase/auth";
 import { getIndexData } from "../getIndexData";
 import { getStockChartData } from "../getStockChartData";
+import styled from "styled-components";
 
+
+// This tutorial was helpful to create the drag and drop favorites functionality:
+// https://dev.to/colinmcd01/drag-drop-re-ordering-using-html-and-react-974
+
+
+const FavoritesGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  place-items: center;
+
+`;
 
 const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisabled}) => {
 
+    const [userEmail, setUserEmail] = useState('');
     const [myFavorites, setMyFavorites] = useState([]);
     const [favoriteData, setFavoriteData] = useState({"test":{bodyText: "test"}})
     const [coolDown, setCoolDown] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    
+    const [dragId, setDragId] = useState('');
 
     useEffect(() => {
         //loadFavorites(); This causes errors, and doesn't seem to be necessary.
         monitorAuthState();
     },[]);
+
+
 
     
     const monitorAuthState = async () => {
@@ -29,9 +44,11 @@ const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisa
                 setIsLoggedIn(true);
                 // console.log(user.email + " log in");
                 loadFavorites(user.email);
+                setUserEmail(user.email);
                 
             } else {
                 setIsLoggedIn(false);
+                setUserEmail('');
                 setMyFavorites([]);
             }
         });
@@ -52,6 +69,16 @@ const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisa
         }
       }
 
+    async function setFirestoreFavorites(userEmail, favoritesArray) {
+      try {
+        
+        await updateDoc(doc(db, "users", userEmail), {favorites: favoritesArray});
+
+      } catch(error) {
+        console.log("Error: ", error)
+      }
+    }
+    
     const getQuote = async (ticker) => {
         setFavoriteData({...favoriteData, [ticker]: {isLoading:true}});
         // console.log("getting quote");
@@ -97,36 +124,83 @@ const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisa
         
       }
 
+    const handleDrag = (ev) => {
+      setDragId(ev.currentTarget.id);
+      // console.log(ev.currentTarget.id);
+    }
+
+    const handleDrop = (ev) => {
+      const dragFavorite = myFavorites.find((favorite) => favorite.id === dragId);
+      // console.log(dragFavorite);
+      const dropFavorite = myFavorites.find((favorite) => favorite.id === ev.currentTarget.id);
+      // console.log(dropFavorite);
+      const dragFavoriteOrder = dragFavorite.date;
+      const dropFavoriteOrder = dropFavorite.date;
+      
+      // if (!dropFavorite) { 
+      //   console.log("drop didn't work");
+      //   return;
+      // }
+
+      //const dragFavoriteIndex = myFavorites.indexOf(dragFavorite);
+      //const dropFavoriteIndex = myFavorites.indexOf(dropFavorite);
+      //console.log(dragFavoriteIndex);
+      //console.log(dropFavoriteIndex);
+      //[myFavorites[dragFavoriteIndex], myFavorites[dropFavoriteIndex]] = [myFavorites[dropFavoriteIndex], myFavorites[dragFavoriteIndex]]; 
+      
+
+      const reorderedFavorites = myFavorites.map((favorite) => {
+        if (favorite.id === dragId) {
+          favorite.date = dropFavoriteOrder;
+        }
+        if (favorite.id === ev.currentTarget.id) {
+          favorite.date = dragFavoriteOrder;
+        }
+        return favorite;
+      });
+
+      setMyFavorites(reorderedFavorites);
+      setFirestoreFavorites(userEmail, reorderedFavorites);
+    } 
+
     return(
         
         <div>
             {isLoggedIn &&
             <div>
             <h3>Favorites</h3>
-            {myFavorites.map((favorite) => {
-                
-                // let searchResult = getEquityData(favorite.ticker)
-                
-                return(
-                    <DisplayCard
-                    loading={favoriteData[favorite.ticker] ? favoriteData[favorite.ticker].isLoading : false}
-                    key={favorite.id}
-                    headerText={favorite.ticker}
-                    bodyText={favoriteData[favorite.ticker] ? favoriteData[favorite.ticker].bodyText : ""}
-                    footerText={favoriteData[favorite.ticker] ? favoriteData[favorite.ticker].footerText : ""} 
-                    isPositive={favoriteData[favorite.ticker] ? favoriteData[favorite.ticker].isFavorite : false}
+            
 
-                    chartData={favoriteData[favorite.ticker] ? favoriteData[favorite.ticker].stockChartData : null}
+            
+            <FavoritesGrid>
+              {myFavorites
+                .sort((a,b) => a.date - b.date)
+                .map((favorite) => {
+                
+                  return(
+                      <DisplayCard
+                      id={favorite.id}
+                      handleDrag={handleDrag}
+                      handleDrop={handleDrop}
+                      loading={favoriteData[favorite.ticker] ? favoriteData[favorite.ticker].isLoading : false}
+                      key={favorite.id}
+                      headerText={favorite.ticker}
+                      bodyText={favoriteData[favorite.ticker] ? favoriteData[favorite.ticker].bodyText : ""}
+                      footerText={favoriteData[favorite.ticker] ? favoriteData[favorite.ticker].footerText : ""} 
+                      isPositive={favoriteData[favorite.ticker] ? favoriteData[favorite.ticker].isFavorite : false}
 
-                    showButton={true}
-                    buttonText={favoriteData[favorite.ticker] ? "Refresh quote" : "Fetch Quote"}
-                    handleClick={() => getQuote(favorite.ticker)}
-                    handlePrimary={!coolDown}
-                    handleDisabled={coolDown}
-                    />
-                        
-                );
-            })}
+                      chartData={favoriteData[favorite.ticker] ? favoriteData[favorite.ticker].stockChartData : null}
+
+                      showButton={true}
+                      buttonText={favoriteData[favorite.ticker] ? "Refresh quote" : "Fetch Quote"}
+                      handleClick={() => getQuote(favorite.ticker)}
+                      handlePrimary={!coolDown}
+                      handleDisabled={coolDown}
+                      />
+                         
+                  );
+              })}
+            </FavoritesGrid>
 
             <StyledButton onClick={handleClick}>Does nothing</StyledButton>
             </div> } 

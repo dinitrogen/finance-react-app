@@ -107,7 +107,7 @@ const App = () => {
       
     
       try {
-        const docSnap = await getDoc(doc(db, "users", userEmail))
+        const docSnap = await getDoc(doc(db, "users", userEmail));
         await updateDoc(doc(db, "users", userEmail), {favorites: arrayUnion(newFavorite)});
         console.log("added!");
         setIsFavorite(true);
@@ -206,9 +206,11 @@ const App = () => {
       <BrowserRouter>
 
       <div>
-        <LandingPage />
-        <br></br>
-        <div>Welcome, {userName}</div>
+        <LandingPage
+          userName={userName}
+          isLoggedIn={isLoggedIn} />
+        
+        
 
         <IndexDisplayBar/>
         

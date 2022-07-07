@@ -80,6 +80,7 @@ const LoginPage = () => {
         }
     }
 
+    // No longer using this function on this component, it is used in the nav bar instead
     const logout = async () => {
         await signOut(auth);
     }
@@ -165,17 +166,7 @@ const LoginPage = () => {
                 </div>
             </form>}
 
-            {userSignedIn &&
-            <div>
-            {/* <div>Welcome, {displayName}</div> */}
-            <StyledButton
-                        primary={false}
-                        onClick={logout}
-                        disabled={false}>
-                            Log out
-                    </StyledButton>
-            </div>
-            }
+            
         
         
         </div>
