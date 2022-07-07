@@ -14,9 +14,6 @@ A finance web app for searching and tracking stock market quotes, created with R
 ## Planned updates
 - Improve nav bar styling and incoporate a drop-down menu for mobile
 - Improve overall visual appeal with a global theme
-- Improve loading animation
-- Add a dynamic grid layout to history and favorites
-- Allow favorites to be reordered
 - Add customizable date range for charts (eg. 5d, 30d, 60d)
 
 ## Tools used
