@@ -9,7 +9,7 @@ A finance web app for searching and tracking stock market quotes, created with R
 - ### [Live Demo](https://finance-react-app-63c8b.web.app/)
 
 ## Screenshots
-<img src="./src/images/screenshot.png" width="400">
+<img src="./src/images/Screenshot-07-07-22.png" width="400">
 
 ## Planned updates
 - Improve nav bar styling and incoporate a drop-down menu for mobile
