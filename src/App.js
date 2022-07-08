@@ -1,4 +1,3 @@
-import './App.css';
 import React, { useEffect, useState } from "react";
 import LandingPage from './components/LandingPage';
 import SearchBar from './components/SearchBar';
@@ -17,6 +16,11 @@ import { onAuthStateChanged } from 'firebase/auth';
 import IndexDisplayBar from './components/IndexDisplayBar';
 import StockChart from './components/StockChart';
 import { getStockChartData } from './getStockChartData';
+import styled from "styled-components";
+
+const StyledContainer = styled.div`
+  margin: 2em;
+`;
 
 async function checkForRepeats(userEmail, newTickerName) {
   // If no user is logged in (i.e. userEmail is undefined), exit the function or it will cause errors
@@ -173,8 +177,8 @@ const App = () => {
           {
             label: searchResults[1],
             data: searchResults[5].slice(-30),
-            borderColor: 'rgb(255, 99, 132)',
-            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            borderColor: 'rgba(50, 220, 150, 1)',
+            backgroundColor: 'rgba(50, 220, 150, 1)',
           },
         ],
 
@@ -210,59 +214,60 @@ const App = () => {
           userName={userName}
           isLoggedIn={isLoggedIn} />
         
-        
+        <StyledContainer>
 
-        <IndexDisplayBar/>
-        
-        <Routes>
-          {/* To get Firebase hosting to direct to /finance-react-app, I added a "redirect" to the firebase.json */}
-          <Route path="/finance-react-app" element = {
-
-            <div>
-              <SearchBar
-                ticker={ticker}
-                clicked = {handleClick}
-                handleChange = {handleChange}
-                coolDown={coolDown} />
-
-              {bodyText && !headerText &&
-                <div>
-                <div><i>{bodyText}</i></div>
-                <div><i>{footerText}</i></div>
-                </div>
-              }
-              
-              {headerText && 
-              
-              <DisplayCard
-                loading={loading}
-                headerText={headerText}
-                bodyText={bodyText}
-                footerText={footerText}
-                isPositive={isPositive}
-                showButton={(isLoggedIn) ? true: false}
-                handlePrimary={!isFavorite}
-                buttonText={(isFavorite) ? "Remove from favorites" : "Add to favorites"}
-                handleClick={(!isFavorite) ? () => addToFavorites(currentUser, headerText) : () => removeFromFavorites(currentUser, headerText)}
-                chartData={stockChartData}
-                />}
-            </div>} />
+          <IndexDisplayBar/>
           
-          <Route path="history" element = {
-            <HistoryPage
-              tickers={tickers}
-              showButton={false}
-              handleClick={clearSearchHistory} />} />
-          <Route path="favorites" element = {
-            <div>
-              <LoginPage />
-              <FavoritesPage
-                handleClick={printNothing} />
+          <Routes>
+            {/* To get Firebase hosting to direct to /finance-react-app, I added a "redirect" to the firebase.json */}
+            <Route path="/finance-react-app" element = {
+
+              <div>
+                <SearchBar
+                  ticker={ticker}
+                  clicked = {handleClick}
+                  handleChange = {handleChange}
+                  coolDown={coolDown} />
+
+                {bodyText && !headerText &&
+                  <div>
+                  <div><i>{bodyText}</i></div>
+                  <div><i>{footerText}</i></div>
+                  </div>
+                }
                 
-            </div> } />
-        </Routes>
-        <br></br>
-        <div><b>Note:</b> the API only allows 5 requests per minute, and 500 total requests per day.</div>
+                {headerText && 
+                
+                <DisplayCard
+                  loading={loading}
+                  headerText={headerText}
+                  bodyText={bodyText}
+                  footerText={footerText}
+                  isPositive={isPositive}
+                  showButton={(isLoggedIn) ? true: false}
+                  handlePrimary={!isFavorite}
+                  buttonText={(isFavorite) ? "Remove from favorites" : "Add to favorites"}
+                  handleClick={(!isFavorite) ? () => addToFavorites(currentUser, headerText) : () => removeFromFavorites(currentUser, headerText)}
+                  chartData={stockChartData}
+                  />}
+              </div>} />
+            
+            <Route path="history" element = {
+              <HistoryPage
+                tickers={tickers}
+                showButton={false}
+                handleClick={clearSearchHistory} />} />
+            <Route path="favorites" element = {
+              <div>
+                <LoginPage />
+                <FavoritesPage
+                  handleClick={printNothing} />
+                  
+              </div> } />
+          </Routes>
+          <br></br>
+          <div><b>Note:</b> the API only allows 5 requests per minute, and 500 total requests per day.</div>
+        </StyledContainer>
       </div>
       </BrowserRouter>
     </StyledAppDiv>

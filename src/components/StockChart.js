@@ -15,6 +15,8 @@ const StockChart = ({chartData}) => {
             data = {chartData}
             width={100}
             height={200}
+            
+            
           />
 
         </div>

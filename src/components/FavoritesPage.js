@@ -100,8 +100,8 @@ const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisa
                       {
                         label: quote[1],
                         data: quote[5].slice(-30),
-                        borderColor: 'rgb(255, 99, 132)',
-                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        borderColor: 'rgba(50, 220, 150, 1)',
+                        backgroundColor: 'rgba(50, 220, 150, 1)',
                       },
                     ],
               
@@ -202,7 +202,7 @@ const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisa
               })}
             </FavoritesGrid>
 
-            <StyledButton onClick={handleClick}>Does nothing</StyledButton>
+            
             </div> } 
         </div>
     )
