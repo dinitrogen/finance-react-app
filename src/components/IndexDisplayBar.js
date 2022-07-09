@@ -17,10 +17,14 @@ const StyledDisplayBar = styled.div`
     font-size: 0.8rem;
     /* border: solid rgba(50, 220, 150, 1) 3px;
     border-radius: 10px; */
-    border-bottom: 5px solid rgba(50, 50, 50, 1);
+    border-bottom: 5px solid rgba(60, 100, 60, 1);
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
     height:100px;
     /* background-color: rgba(200, 240, 200, 1); */
+    
+    @media only screen and (max-width:1000px) {
+        overflow:auto;
+    }
     
 `;
 

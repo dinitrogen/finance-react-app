@@ -13,7 +13,6 @@ A finance web app for searching and tracking stock market quotes, created with R
 <img src="./src/images/stockfinder-screenshot-2.png" width="400">
 
 ## Planned updates
-- Improve layout/mobile responsiveness of content
 - Improve visual appeal with a global theme
 - Add customizable date range for charts (eg. 5d, 30d, 60d)
 
@@ -22,7 +21,6 @@ A finance web app for searching and tracking stock market quotes, created with R
 - [Google Firebase](https://firebase.google.com/)
 - [Styled Components](https://styled-components.com/)
 - [Alpha Vantage Stock API](https://www.alphavantage.co/)
-- [Yahoo Finance API](https://www.yahoofinanceapi.com/)
 - [ChartJS](https://www.chartjs.org/) & [react-chartjs-2](https://react-chartjs-2.js.org/)
 
  

@@ -8,11 +8,16 @@ import { onAuthStateChanged } from "firebase/auth";
 import { getIndexData } from "../getIndexData";
 import { getStockChartData } from "../getStockChartData";
 import styled from "styled-components";
+import { DragDropTouch } from "../polyfills/DragDropTouch";
+
 
 
 // This tutorial was helpful to create the drag and drop favorites functionality:
 // https://dev.to/colinmcd01/drag-drop-re-ordering-using-html-and-react-974
 
+// To enable mobile drag and drop, I used a polyfill found here:
+// https://github.com/Bernardo-Castilho/dragdroptouch
+// Added the .js file to my app and imported "DragDropTouch" to this component
 
 const FavoritesGrid = styled.div`
   display: grid;

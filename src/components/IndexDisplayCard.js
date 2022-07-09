@@ -9,7 +9,7 @@ const StyledDisplayCard = styled.div`
     padding: 1em;
     color: rgba(50, 50, 50, 1);
     font-weight: bold;
-    border-right: 3px solid rgba(50, 50, 50, 1);
+    border-right: 3px solid rgba(60, 100, 60, 1);
     
 `;
 
