@@ -21,13 +21,14 @@ const Navbar = styled.nav`
     background-color: rgba(60, 100, 60, 1);
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
     
+    
 
 `;
 
 const MenuIcon = styled.div`
     display: none;
 
-    @media screen and (max-width:1000px) {
+    @media only screen and (max-width:1000px) {
         display: block;
         position: absolute;
         top: 0;
@@ -145,9 +146,13 @@ const LandingPage = ({userName, isLoggedIn}) => {
         setMenuBarClicked(!menuBarClicked);
     }
 
+    const handleLogoClick = () => {
+        setMenuBarClicked(false);
+    }
+
     return (
         <Navbar>
-            <NavLogo to ="/finance-react-app">
+            <NavLogo onClick={handleLogoClick} to="/finance-react-app">
                 
                 <h2>StockFinder</h2>
                 <img alt="logo"src={logoIcon} width="50" hspace="10"></img>

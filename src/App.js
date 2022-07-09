@@ -214,9 +214,9 @@ const App = () => {
           userName={userName}
           isLoggedIn={isLoggedIn} />
         
-        <StyledContainer>
+        <IndexDisplayBar/>
 
-          <IndexDisplayBar/>
+        <StyledContainer>
           
           <Routes>
             {/* To get Firebase hosting to direct to /finance-react-app, I added a "redirect" to the firebase.json */}

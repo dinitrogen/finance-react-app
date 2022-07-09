@@ -6,8 +6,8 @@ import loadingIcon from '../images/loading.png';
 
 const StyledDisplayCard = styled.div`
     margin: 1em;
-    width: 15em;
-    padding: 10px;
+    
+    padding: 1em;
     border: solid rgba(50, 220, 150, 1) 3px;
     border-radius: 10px;
     background-color: white;

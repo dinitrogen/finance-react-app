@@ -16,8 +16,17 @@ import styled from "styled-components";
 
 const FavoritesGrid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   place-items: center;
+  
+  @media only screen and (max-width:1000px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media only screen and (max-width:650px) {
+    grid-template-columns: 1fr;
+  }
+  
 
 `;
 

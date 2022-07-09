@@ -1,11 +1,28 @@
 import {React, useState, useEffect } from "react";
-import { StyledRotateDiv, StyledDisplayBar, StyledButton, StyledDisplayCard } from "./StyledComponents";
+import { StyledRotateDiv, StyledButton, StyledDisplayCard } from "./StyledComponents";
 import DisplayCard from "./DisplayCard";
 import { getIndexData } from "../getIndexData";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import uniqid from 'uniqid';
 import IndexDisplayCard from "./IndexDisplayCard";
+import styled from "styled-components";
+
+
+const StyledDisplayBar = styled.div`
+    padding: 1em;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    font-size: 0.8rem;
+    /* border: solid rgba(50, 220, 150, 1) 3px;
+    border-radius: 10px; */
+    border-bottom: 5px solid rgba(50, 50, 50, 1);
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+    height:100px;
+    /* background-color: rgba(200, 240, 200, 1); */
+    
+`;
 
 const IndexDisplayBar = () => {
 
@@ -36,8 +53,14 @@ const IndexDisplayBar = () => {
 
     return (
         <div>
-            <h4>Market Watch</h4>
+            
         <StyledDisplayBar>
+            
+            <IndexDisplayCard
+                headerText='MarketWatch'
+            />
+
+
             {isLoading && <div>Loading...</div>}
             {indexResults.map((indexResult) => {
                 

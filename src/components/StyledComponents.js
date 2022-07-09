@@ -11,21 +11,11 @@ const rotate = keyframes`
     }
 `;
 
-const StyledDisplayBar = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    font-size: 0.7em;
-    border: solid rgba(50, 220, 150, 1) 3px;
-    border-radius: 10px;
-    max-width: 50em;
-    
-`;
+
 
 const StyledAppDiv = styled.div`
     
 `;
-
 
 const StyledRotateDiv = styled.div`
     display: inline-block;
@@ -33,9 +23,6 @@ const StyledRotateDiv = styled.div`
     padding: 2rem 1rem;
     font-size: 1.2rem;
 `;
-
-
-
 
 const StyledButton = styled.button`
     background: ${props => props.primary ? 'rgba(50, 220, 150, 1)' : "white"};
@@ -57,4 +44,4 @@ const StyledInput = styled.input`
     padding: 1em;
 `;
 
-export {StyledAppDiv, StyledButton, StyledInput, StyledRotateDiv, StyledDisplayBar};
+export {StyledAppDiv, StyledButton, StyledInput, StyledRotateDiv};

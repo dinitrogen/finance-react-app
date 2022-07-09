@@ -2,14 +2,14 @@ import { React } from 'react';
 import styled from 'styled-components';
 
 const StyledDisplayCard = styled.div`
-    margin: 1em;
-    width: 15em;
-    padding: 10px;
-    /* border: solid palevioletred 3px; */
-    /* border-radius: 10px; */
-    background-color: white;
-    color: black;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 1em;
+    color: rgba(50, 50, 50, 1);
     font-weight: bold;
+    border-right: 3px solid rgba(50, 50, 50, 1);
     
 `;
 

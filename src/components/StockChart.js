@@ -13,7 +13,7 @@ const StockChart = ({chartData}) => {
           <Line
             options = { {responsive: true, maintainAspectRatio: false} }
             data = {chartData}
-            width={100}
+            width={250}
             height={200}
             
             
