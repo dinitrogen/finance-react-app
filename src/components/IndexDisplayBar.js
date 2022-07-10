@@ -61,7 +61,8 @@ const IndexDisplayBar = () => {
         <StyledDisplayBar>
             
             <IndexDisplayCard
-                headerText='MarketWatch'
+                headerText='Market'
+                footerText='Watch'
             />
 
 
@@ -71,7 +72,7 @@ const IndexDisplayBar = () => {
                 return(
                     <IndexDisplayCard
                         key={indexResult.key}
-                        headerText={`${indexResult.name} (${indexResult.ticker})`}
+                        headerText={`${indexResult.name}`}
                         bodyText={indexResult.bodyText}
                         footerText={indexResult.footerText}
                         isPositive={indexResult.isPositive}    

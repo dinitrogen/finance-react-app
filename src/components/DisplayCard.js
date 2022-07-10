@@ -20,7 +20,7 @@ const StyledBodyText = styled.div`
     color: ${props => props.positive ? "green" : "red"};
 `;
 
-const DisplayCard = ({headerText, bodyText, footerText, loading, buttonText, handleClick, handleDisabled, handlePrimary, showButton, chartData, isPositive, handleDrag, handleDrop,id}) => {
+const DisplayCard = ({headerText, bodyText, footerText, loading, buttonText, handleClick, handleDisabled, handlePrimary, showButton, chartData, isPositive, handleDrag, handleDrop, id, isDraggable}) => {
     
     if (loading) {
         return (
@@ -33,7 +33,7 @@ const DisplayCard = ({headerText, bodyText, footerText, loading, buttonText, han
     return (
         <StyledDisplayCard
             id={id}
-            draggable={true}
+            draggable={isDraggable}
             onDragOver={(ev) => ev.preventDefault()}
             onDragStart={handleDrag}
             onDrop={handleDrop} >

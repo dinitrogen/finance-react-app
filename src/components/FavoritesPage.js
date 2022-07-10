@@ -184,7 +184,7 @@ const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisa
             <div>
             <h3>Favorites</h3>
             
-
+            <div><i>(Click/touch and drag to rearrange favorites.)</i></div>
             
             <FavoritesGrid>
               {myFavorites
@@ -194,6 +194,7 @@ const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisa
                   return(
                       <DisplayCard
                       id={favorite.id}
+                      isDraggable={true}
                       handleDrag={handleDrag}
                       handleDrop={handleDrop}
                       loading={favoriteData[favorite.ticker] ? favoriteData[favorite.ticker].isLoading : false}
@@ -215,7 +216,8 @@ const FavoritesPage = ({handleClick, handleFavoritesPrimary, handleFavoritesDisa
                   );
               })}
             </FavoritesGrid>
-
+            
+            
             
             </div> } 
         </div>

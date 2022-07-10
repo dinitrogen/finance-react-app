@@ -17,6 +17,7 @@ import IndexDisplayBar from './components/IndexDisplayBar';
 import StockChart from './components/StockChart';
 import { getStockChartData } from './getStockChartData';
 import styled from "styled-components";
+import Footer from "./components/Footer";
 
 const StyledContainer = styled.div`
   margin: 2em;
@@ -268,9 +269,12 @@ const App = () => {
           <br></br>
           <div><b>Note:</b> the API only allows 5 requests per minute, and 500 total requests per day.</div>
         </StyledContainer>
+      
+        <Footer />
       </div>
       </BrowserRouter>
     </StyledAppDiv>
+
   );
 }
 

@@ -20,9 +20,6 @@ const Navbar = styled.nav`
     height: 80px;
     background-color: rgba(60, 100, 60, 1);
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
-    
-    
-
 `;
 
 const MenuIcon = styled.div`
