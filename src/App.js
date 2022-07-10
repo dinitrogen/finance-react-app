@@ -20,7 +20,8 @@ import styled from "styled-components";
 import Footer from "./components/Footer";
 
 const StyledContainer = styled.div`
-  margin: 2em;
+  margin: 2em 2em 8em 2em;
+  
 `;
 
 async function checkForRepeats(userEmail, newTickerName) {
