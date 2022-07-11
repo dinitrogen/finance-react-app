@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login page renders login page 1`] = `
+<div>
+  <div>
+    <form
+      class="loginForm"
+    >
+      <label>
+        <h3>
+          Sign in to view your favorites!!!
+        </h3>
+        <input
+          class="sc-hKMtZM bXGjVj"
+          id="emailInput"
+          placeholder="Enter your email"
+          value=""
+        />
+        <input
+          class="sc-hKMtZM bXGjVj"
+          id="passwordInput"
+          placeholder="Enter your password"
+          value=""
+        />
+      </label>
+      <div>
+        <i />
+      </div>
+      <div>
+        <button
+          class="sc-dkzDqf chaoPV"
+        >
+          Sign In
+        </button>
+        - or -
+        <button
+          class="sc-dkzDqf dYCMHp"
+        >
+          Sign Up
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+`;
