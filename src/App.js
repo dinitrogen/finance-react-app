@@ -216,7 +216,8 @@ const App = () => {
           userName={userName}
           isLoggedIn={isLoggedIn} />
         
-        <IndexDisplayBar/>
+        {/* removed Index Bar because API is no longer working */}
+        {/* <IndexDisplayBar/> */}
 
         <StyledContainer>
           

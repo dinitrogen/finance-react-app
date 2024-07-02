@@ -52,7 +52,7 @@ const Footer = () => {
         <StyledFooter>
             <FooterList>
                 <FooterItem>
-                    <div>&copy; 2022 dinitrogen</div>
+                    <div>&copy; 2024 dinitrogen</div>
                 </FooterItem>
                 <FooterIcon>
                     <StyledIconLink href="https://github.com/dinitrogen/finance-react-app"><BsGithub /></StyledIconLink>
